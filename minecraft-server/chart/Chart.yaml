@@ -1,0 +1,12 @@
+apiVersion: v2
+name: Minecraft Server
+description: Minecraft server with overrides
+type: application
+version: 0.0.1
+appVersion: 1.16.0
+
+dependencies:
+  - name: minecraft
+    version: 3.4.2
+    repository: https://itzg.github.io/minecraft-server-charts/
+

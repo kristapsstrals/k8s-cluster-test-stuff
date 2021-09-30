@@ -1,0 +1,10 @@
+http://localhost {
+	respond "Hello, world!"
+}
+
+http://localhost:2016 {
+	respond "Goodbye, world!"
+}
+http://localhost:5000 {
+    reverse_proxy 192.168.50.85:8123
+}

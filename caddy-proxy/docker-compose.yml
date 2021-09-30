@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  caddy:
+    image: caddy:2
+    ports:
+      - 80:80
+      - 443:443
+      - 2016:2016
+      - 5000:5000
+    volumes:
+      - caddy:/data
+      - ./Caddyfile:/etc/caddy/Caddyfile
+
+
+volumes:
+  caddy:

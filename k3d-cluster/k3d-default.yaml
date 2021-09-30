@@ -1,0 +1,35 @@
+apiVersion: k3d.io/v1alpha2 # this will change in the future as we make everything more stable
+kind: Simple # internally, we also have a Cluster config, which is not yet available externally
+name: dev # name that you want to give to your cluster (will still be prefixed with `k3d-`)
+servers: 1 # same as `--servers 1`
+agents: 2 # same as `--agents 2`
+kubeAPI: # same as `--api-port myhost.my.domain:6445` (where the name would resolve to 127.0.0.1)
+  hostPort: "6550" # where the Kubernetes API listening port will be mapped to on your host system
+ports:
+  - port: 80:80 # same as `--port '80:80@loadbalancer'`
+    nodeFilters:
+      - loadbalancer
+  - port: 443:443 # same as `--port '443:443@loadbalancer'`
+    nodeFilters:
+      - loadbalancer
+
+  # Istio
+  - port: 15021:15021
+    nodeFilters:
+      - loadbalancer
+  - port: 15012:15012
+    nodeFilters:
+      - loadbalancer
+  - port: 15443:15443
+    nodeFilters:
+      - loadbalancer
+registries: # define how registries should be created or used
+  create: true # creates a default registry to be used with the cluster; same as `--registry-create`
+options:
+  k3s: # options passed on to K3s itself
+    extraServerArgs: # additional arguments passed to the `k3s server` command; same as `--k3s-server-arg`
+      - --no-deploy=traefik
+  kubeconfig:
+    updateDefaultKubeconfig: true # add new cluster to your default Kubeconfig; same as `--kubeconfig-update-default` (default: true)
+    switchCurrentContext: true # also set current-context to the new cluster's context; same as `--kubeconfig-switch-context` (default: true)
+

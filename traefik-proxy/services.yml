@@ -1,0 +1,11 @@
+http:
+  routers:
+    homeassistant:
+      rule: "Path(`/hassio`)"
+      service: hass-service
+
+  services:
+    hass-service:
+      loadBalancer:
+        servers:
+          - url: http://192.168.50.85:8123

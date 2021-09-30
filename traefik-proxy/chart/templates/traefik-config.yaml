@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: traefik-config
+data:
+  traefik-config.yaml: |
+    http:
+        routers:
+            homeassistant:
+                rule: Host(`traefik.localhost`) && PathPrefix(`/hassio`)
+                service: hass-service
+            homeassistant-1:
+                rule: Host(`hassio.localhost`)
+                service: hass-service
+
+        services:
+            hass-service:
+                loadBalancer:
+                    servers:
+                    - url: "http://192.168.50.85:8123/"

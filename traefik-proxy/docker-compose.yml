@@ -1,0 +1,17 @@
+version: "3.3"
+
+services:
+  traefik:
+    image: traefik:v2.4.6
+    container_name: traefik
+    # network_mode: host
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080" # dashboard on http://localhost:8080
+      - "8780:8780"
+    volumes:
+      - ./traefik.yml:/etc/traefik/traefik.yml
+      - ./services.yml:/etc/traefik/services.yml
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    restart: unless-stopped

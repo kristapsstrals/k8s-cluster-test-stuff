@@ -1,0 +1,58 @@
+# dashboard.yaml
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dashboard
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`traefik.localhost`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+      kind: Rule
+      services:
+        - name: api@internal
+          kind: TraefikService
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dashboard-external
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`192.168.50.173`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+      kind: Rule
+      services:
+        - name: api@internal
+          kind: TraefikService
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: homeassistant
+# spec:
+#   selector:
+#     app: homeassistant
+#   ports:
+#     - name: http
+#       protocol: TCP
+#       port: 80
+#       targetPort: 8123
+#   externalIPs:
+#     - 192.168.50.85
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: homeassistant
+# spec:
+#   entryPoints:
+#     - web
+#   routes:
+#     - match: Host(`192.168.50.173`) && PathPrefix(`/homeassistant`)
+#       kind: Rule
+#     services:
+#     - name: homeassistant
+#       port: 80

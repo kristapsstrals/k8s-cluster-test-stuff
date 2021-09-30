@@ -1,0 +1,26 @@
+entryPoints:
+  traefik:
+    address: :8780
+  web:
+    address: :80
+  websecure:
+    address: :443
+
+## STATIC CONFIGURATION
+log:
+  level: INFO
+
+api:
+  insecure: true
+  # dashboard: true
+
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: true
+    watch: true
+
+  file:
+    filename: /etc/traefik/services.yml
+    watch: true
